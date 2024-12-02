@@ -1,0 +1,82 @@
+class Padaria:
+    def __init__(self):
+        self.cardapio = {
+            "Pão francês": 0.5,
+            "Pão de leite": 0.7,
+            "Bolo de chocolate": 3.0,
+            "Coxinha": 1.5,
+            "Pastel": 2.0
+        }
+        self.pedido = {}
+
+    def mostrar_cardapio(self):
+        print("Bem-vindo à Padaria! Aqui está o nosso cardápio:")
+        for item, preco in self.cardapio.items():
+            print(f"{item}: R${preco:.2f}")
+    
+    def adicionar_ao_pedido(self):
+        while True:
+            item = input("Digite o nome do item que deseja comprar (ou 'sair' para finalizar): ").strip()
+            if item.lower() == 'sair':
+                break
+            elif item in self.cardapio:
+                quantidade = int(input(f"Quantos {item}s você gostaria de comprar? "))
+                if item in self.pedido:
+                    self.pedido[item] += quantidade
+                else:
+                    self.pedido[item] = quantidade
+                print(f"Adicionado {quantidade} {item}(s) ao seu pedido.")
+            else:
+                print("Desculpe, esse item não está no cardápio. Tente novamente.")
+    
+    def calcular_total(self):
+        total = 0
+        for item, quantidade in self.pedido.items():
+            total += self.cardapio[item] * quantidade
+        return total
+    
+    def finalizar_pedido(self):
+        if not self.pedido:
+            print("Seu pedido está vazio. Tente adicionar itens ao pedido.")
+            return
+        
+        print("\nSeu pedido:")
+        for item, quantidade in self.pedido.items():
+            print(f"{item} - {quantidade} unidade(s)")
+        
+        total = self.calcular_total()
+        print(f"\nTotal da compra: R${total:.2f}")
+        
+        pagamento = float(input("Digite o valor que você vai pagar: R$"))
+        
+        if pagamento >= total:
+            troco = pagamento - total
+            print(f"Pagamento aceito. Seu troco é: R${troco:.2f}")
+        else:
+            print("Valor insuficiente! Tente novamente.")
+    
+def main():
+    padaria = Padaria()
+    
+    while True:
+        print("\n1 - Ver Cardápio")
+        print("2 - Fazer Pedido")
+        print("3 - Finalizar Pedido")
+        print("4 - Sair")
+        
+        opcao = input("Escolha uma opção: ")
+        
+        if opcao == "1":
+            padaria.mostrar_cardapio()
+        elif opcao == "2":
+            padaria.adicionar_ao_pedido()
+        elif opcao == "3":
+            padaria.finalizar_pedido()
+        elif opcao == "4":
+            print("Obrigado por usar nosso aplicativo de padaria! Até logo!")
+            break
+        else:
+            print("Opção inválida. Tente novamente.")
+
+if __name__ == "__main__":
+    main()
